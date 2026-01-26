@@ -57,7 +57,7 @@ const Footer = () => {
                 <Linkedin className="w-5 h-5 text-gray-400 group-hover:text-[#49abdb] transition-colors" />
               </a>
               <a 
-                href="mailto:hongxi@example.com" 
+                href="mailto:2483793626@qq.com" 
                 className="w-10 h-10 rounded-lg glass flex items-center justify-center hover:bg-[#ad49db]/20 transition-colors group"
               >
                 <Mail className="w-5 h-5 text-gray-400 group-hover:text-[#ad49db] transition-colors" />
@@ -89,8 +89,8 @@ const Footer = () => {
             <ul className="space-y-3 text-sm">
               <li className="text-gray-400">
                 <span className="text-[#d0ff59]">邮箱：</span>
-                <a href="mailto:hongxi@example.com" className="hover:text-white transition-colors">
-                  hongxi@example.com
+                <a href="mailto:2483793626@qq.com" className="hover:text-white transition-colors">
+                  2483793626@qq.com
                 </a>
               </li>
               <li className="text-gray-400">

@@ -21,7 +21,7 @@ const Contact = () => {
   const [focusedField, setFocusedField] = useState<string | null>(null);
 
   const contactInfo = [
-    { icon: Mail, label: '邮箱', value: 'hongxi@example.com', color: '#d0ff59' },
+    { icon: Mail, label: '邮箱', value: '2483793626@qq.com', color: '#d0ff59' },
     { icon: Phone, label: '电话', value: '18028651236', color: '#49abdb' },
     { icon: MapPin, label: '地址', value: '广东省广州市', color: '#ad49db' },
   ];
