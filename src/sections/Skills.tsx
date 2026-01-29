@@ -9,10 +9,26 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
+// 轨道容器尺寸：Orbit1 300/400px，Orbit2 450/550px，半径取一半
+const ORBIT1_RADIUS = { base: 150, md: 200 };
+const ORBIT2_RADIUS = { base: 225, md: 275 };
+
 const Skills = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const orbitRef = useRef<HTMLDivElement>(null);
   const [hoveredSkill, setHoveredSkill] = useState<string | null>(null);
+  const [isMd, setIsMd] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia('(min-width: 768px)').matches
+  );
+
+  // 根据断点使用对应半径，避免轨道放大后图标与圆环错位
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 768px)');
+    const update = () => setIsMd(mq.matches);
+    update();
+    mq.addEventListener('change', update);
+    return () => mq.removeEventListener('change', update);
+  }, []);
 
   const coreSkills = [
     { name: 'Python', icon: Code2, level: 90, color: '#d0ff59', description: '熟练编写Python代码，熟悉PyTorch、OpenCV等库' },
@@ -108,7 +124,7 @@ const Skills = () => {
           <div className="orbit-1 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[400px] md:h-[400px] rounded-full border border-white/5 transition-transform duration-300">
             {coreSkills.map((skill, index) => {
               const angle = (index / coreSkills.length) * 360;
-              const radius = 150; // Half of 300px
+              const radius = isMd ? ORBIT1_RADIUS.md : ORBIT1_RADIUS.base;
               const x = Math.cos((angle * Math.PI) / 180) * radius;
               const y = Math.sin((angle * Math.PI) / 180) * radius;
               
@@ -158,7 +174,7 @@ const Skills = () => {
           <div className="orbit-2 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[450px] h-[450px] md:w-[550px] md:h-[550px] rounded-full border border-white/5">
             {otherSkills.slice(0, 8).map((skill, index) => {
               const angle = (index / 8) * 360;
-              const radius = 225; // Half of 450px
+              const radius = isMd ? ORBIT2_RADIUS.md : ORBIT2_RADIUS.base;
               const x = Math.cos((angle * Math.PI) / 180) * radius;
               const y = Math.sin((angle * Math.PI) / 180) * radius;
               
