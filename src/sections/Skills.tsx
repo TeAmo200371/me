@@ -61,8 +61,16 @@ const Skills = () => {
           if (orbitRef.current) {
             const rotation1 = self.progress * 180;
             const rotation2 = -self.progress * 120;
-            orbitRef.current.querySelector('.orbit-1')?.setAttribute('style', `transform: rotate(${rotation1}deg)`);
-            orbitRef.current.querySelector('.orbit-2')?.setAttribute('style', `transform: rotate(${rotation2}deg)`);
+            const orbit1 = orbitRef.current.querySelector('.orbit-1') as HTMLElement | null;
+            const orbit2 = orbitRef.current.querySelector('.orbit-2') as HTMLElement | null;
+
+            // 只更新旋转角度，保留 Tailwind 提供的平移（居中）等 transform
+            if (orbit1) {
+              gsap.set(orbit1, { rotation: rotation1, transformOrigin: '50% 50%' });
+            }
+            if (orbit2) {
+              gsap.set(orbit2, { rotation: rotation2, transformOrigin: '50% 50%' });
+            }
           }
         },
       });
