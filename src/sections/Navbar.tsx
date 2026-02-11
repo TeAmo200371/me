@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Menu, X } from 'lucide-react';
 
+const SECTION_IDS = ['home', 'about', 'skills', 'projects', 'experience', 'awards', 'contact'];
+
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('home');
 
   const navItems = [
     { label: '首页', href: '#home' },
@@ -15,14 +18,48 @@ const Navbar = () => {
     { label: '联系', href: '#contact' },
   ];
 
+  // 根据滚动位置高亮当前 section
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 100);
+      const scrollY = window.scrollY;
+      const viewportMid = scrollY + window.innerHeight * 0.35;
+      let current = 'home';
+      for (const id of SECTION_IDS) {
+        const el = document.getElementById(id);
+        if (el) {
+          const top = el.offsetTop;
+          const height = el.offsetHeight;
+          if (viewportMid >= top && viewportMid < top + height) {
+            current = id;
+            break;
+          }
+        }
+      }
+      setActiveSection(current);
     };
 
+    handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // 移动端菜单打开时禁止背景滚动，Esc 关闭
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsMobileMenuOpen(false);
+    };
+    window.addEventListener('keydown', handleEsc);
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', handleEsc);
+    };
+  }, [isMobileMenuOpen]);
 
   const handleNavClick = (href: string) => {
     setIsMobileMenuOpen(false);
@@ -55,17 +92,25 @@ const Navbar = () => {
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-8">
-              {navItems.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  onClick={(e) => { e.preventDefault(); handleNavClick(item.href); }}
-                  className="relative text-sm text-gray-300 hover:text-white transition-colors group"
-                >
-                  {item.label}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#d0ff59] transition-all duration-300 group-hover:w-full" />
-                </a>
-              ))}
+              {navItems.map((item) => {
+                const isActive = activeSection === item.href.slice(1);
+                return (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    onClick={(e) => { e.preventDefault(); handleNavClick(item.href); }}
+                    className={`relative text-sm transition-colors group ${
+                      isActive ? 'text-[#d0ff59]' : 'text-gray-300 hover:text-white'
+                    }`}
+                  >
+                    {item.label}
+                    <span
+                      className="absolute -bottom-1 left-0 h-0.5 bg-[#d0ff59] transition-all duration-300 group-hover:w-full"
+                      style={{ width: isActive ? '100%' : '0' }}
+                    />
+                  </a>
+                );
+              })}
             </div>
 
             {/* CTA Button */}
@@ -88,33 +133,41 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu - 带过渡动画，Esc 关闭 */}
       <div 
-        className={`fixed inset-0 z-40 bg-[#0a0b10]/95 backdrop-blur-xl md:hidden transition-all duration-500 ${
-          isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+        className={`fixed inset-0 z-40 md:hidden transition-all duration-300 ${
+          isMobileMenuOpen 
+            ? 'opacity-100 visible bg-[#0a0b10]/95 backdrop-blur-xl' 
+            : 'opacity-0 invisible pointer-events-none'
         }`}
       >
         <div className="flex flex-col items-center justify-center h-full gap-8">
-          {navItems.map((item, index) => (
-            <a
-              key={item.href}
-              href={item.href}
-              onClick={(e) => { e.preventDefault(); handleNavClick(item.href); }}
-              className="text-2xl text-white hover:text-[#d0ff59] transition-colors"
-              style={{ 
-                animationDelay: `${index * 0.1}s`,
-                opacity: isMobileMenuOpen ? 1 : 0,
-                transform: isMobileMenuOpen ? 'translateY(0)' : 'translateY(20px)',
-                transition: `all 0.3s ease ${index * 0.1}s`,
-              }}
-            >
-              {item.label}
-            </a>
-          ))}
+          {navItems.map((item, index) => {
+            const isActive = activeSection === item.href.slice(1);
+            return (
+              <a
+                key={item.href}
+                href={item.href}
+                onClick={(e) => { e.preventDefault(); handleNavClick(item.href); }}
+                className={`text-2xl transition-colors hover:text-[#d0ff59] ${isActive ? 'text-[#d0ff59]' : 'text-white'}`}
+                style={{ 
+                  opacity: isMobileMenuOpen ? 1 : 0,
+                  transform: isMobileMenuOpen ? 'translateY(0)' : 'translateY(16px)',
+                  transition: `opacity 0.25s ease ${index * 0.04}s, transform 0.25s ease ${index * 0.04}s, color 0.2s`,
+                }}
+              >
+                {item.label}
+              </a>
+            );
+          })}
           <a 
             href="#contact"
             onClick={(e) => { e.preventDefault(); handleNavClick('#contact'); }}
-            className="mt-4 px-8 py-3 bg-[#d0ff59] text-[#0a0b10] font-medium rounded-full"
+            className="mt-4 px-8 py-3 bg-[#d0ff59] text-[#0a0b10] font-medium rounded-full hover:bg-white/90 transition-colors"
+            style={{
+              opacity: isMobileMenuOpen ? 1 : 0,
+              transition: `opacity 0.25s ease ${navItems.length * 0.04}s`,
+            }}
           >
             联系我
           </a>

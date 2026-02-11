@@ -121,10 +121,11 @@ const Projects = () => {
               style={{ perspective: '1000px' }}
             >
               <div
-                className="relative rounded-2xl overflow-hidden glass group cursor-pointer"
+                className="relative rounded-2xl overflow-hidden glass group cursor-pointer focus-within:ring-2 focus-within:ring-[#d0ff59]/50 focus-within:ring-offset-2 focus-within:ring-offset-[#0a0b10] outline-none"
                 onMouseMove={(e) => handleCardHover(project.id, e)}
                 onMouseLeave={handleCardLeave}
                 style={{ transformStyle: 'preserve-3d' }}
+                tabIndex={0}
               >
                 {/* Image container */}
                 <div className="relative h-64 overflow-hidden">
@@ -199,7 +200,11 @@ const Projects = () => {
                       </button>
                     </div>
                     
-                    <button className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 group-hover:bg-[#d0ff59] group-hover:text-[#0a0b10]">
+                    <button
+                      type="button"
+                      onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                      className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 group-hover:bg-[#d0ff59] group-hover:text-[#0a0b10] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d0ff59] focus-visible:ring-offset-2 focus-visible:ring-offset-[#12131a]"
+                    >
                       <span>了解更多</span>
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </button>

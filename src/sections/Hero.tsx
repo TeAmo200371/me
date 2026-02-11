@@ -239,10 +239,14 @@ const Hero = () => {
                 </div>
               </div>
 
-              {/* CTA Buttons */}
+              {/* CTA Buttons - 平滑滚动 */}
               <div className="flex flex-wrap gap-4 pt-4">
                 <a 
                   href="#contact"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
                   className="group relative px-8 py-4 bg-[#d0ff59] text-[#0a0b10] font-semibold rounded-full overflow-hidden transition-all duration-300 hover:scale-105"
                 >
                   <span className="relative z-10 flex items-center gap-2">
@@ -253,6 +257,10 @@ const Hero = () => {
                 </a>
                 <a 
                   href="#projects"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
                   className="px-8 py-4 glass text-white font-medium rounded-full hover:bg-white/10 transition-all duration-300"
                 >
                   查看项目
@@ -294,11 +302,16 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50 hover:opacity-100 transition-opacity">
-        <span className="text-xs text-gray-400">向下滚动</span>
-        <ArrowDown className="w-4 h-4 text-[#d0ff59] animate-bounce" />
-      </div>
+      {/* Scroll indicator - 可点击滚动到关于 */}
+      <button
+        type="button"
+        onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50 hover:opacity-100 transition-opacity cursor-pointer group/scroll"
+        aria-label="向下滚动"
+      >
+        <span className="text-xs text-gray-400 group-hover/scroll:text-[#d0ff59] transition-colors">向下滚动</span>
+        <ArrowDown className="w-4 h-4 text-[#d0ff59] animate-bounce group-hover/scroll:animate-none" />
+      </button>
     </section>
   );
 };

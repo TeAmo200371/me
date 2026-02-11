@@ -19,6 +19,26 @@ const Contact = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [focusedField, setFocusedField] = useState<string | null>(null);
+  const [toast, setToast] = useState<{ message: string; visible: boolean }>({ message: '', visible: false });
+  const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const showToast = (message: string) => {
+    if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
+    setToast({ message, visible: true });
+    toastTimerRef.current = setTimeout(() => {
+      setToast((t) => ({ ...t, visible: false }));
+      toastTimerRef.current = null;
+    }, 2500);
+  };
+
+  const handleCopy = async (value: string, label: string) => {
+    try {
+      await navigator.clipboard.writeText(value);
+      showToast(`已复制${label}`);
+    } catch {
+      showToast('复制失败，请手动选择');
+    }
+  };
 
   const contactInfo = [
     { icon: Mail, label: '邮箱', value: '2483793626@qq.com', color: '#d0ff59' },
@@ -35,7 +55,6 @@ const Contact = () => {
   useEffect(() => {
     const triggers: ScrollTrigger[] = [];
     const ctx = gsap.context(() => {
-      // Content animation
       const contentTrigger = ScrollTrigger.create({
         trigger: sectionRef.current,
         start: 'top 70%',
@@ -57,6 +76,12 @@ const Contact = () => {
     };
   }, []);
 
+  useEffect(() => {
+    return () => {
+      if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
+    };
+  }, []);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
       ...formData,
@@ -72,7 +97,7 @@ const Contact = () => {
     setTimeout(() => {
       setIsSubmitting(false);
       setFormData({ name: '', email: '', subject: '', message: '' });
-      alert('感谢您的留言！我会尽快回复您。');
+      showToast('感谢您的留言！我会尽快回复您。');
     }, 1500);
   };
 
@@ -106,13 +131,16 @@ const Contact = () => {
             <h3 className="text-2xl font-bold text-white mb-8" style={{ fontFamily: 'Sora, sans-serif' }}>
               联系信息
             </h3>
+            <p className="text-gray-500 text-sm mb-4">点击卡片复制到剪贴板</p>
 
-            {/* Contact cards */}
+            {/* Contact cards - 点击复制 */}
             <div className="space-y-4 mb-8">
               {contactInfo.map((info) => (
-                <div 
+                <button
                   key={info.label}
-                  className="glass rounded-xl p-5 card-hover group cursor-pointer"
+                  type="button"
+                  onClick={() => handleCopy(info.value, info.label)}
+                  className="w-full text-left glass rounded-xl p-5 card-hover group cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d0ff59] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0b10]"
                 >
                   <div className="flex items-center gap-4">
                     <div 
@@ -129,7 +157,7 @@ const Contact = () => {
                     </div>
                     <ArrowUpRight className="w-5 h-5 ml-auto text-gray-600 group-hover:text-[#d0ff59] transition-colors" />
                   </div>
-                </div>
+                </button>
               ))}
             </div>
 
@@ -280,6 +308,17 @@ const Contact = () => {
               </button>
             </form>
           </div>
+        </div>
+
+        {/* Toast 提示 */}
+        <div
+          className={`fixed bottom-8 left-1/2 -translate-x-1/2 z-50 px-6 py-3 rounded-xl glass border border-[#d0ff59]/30 text-white text-sm font-medium transition-all duration-300 ${
+            toast.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
+          }`}
+          role="status"
+          aria-live="polite"
+        >
+          {toast.message}
         </div>
       </div>
     </section>
