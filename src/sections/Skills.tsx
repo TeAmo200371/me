@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { 
   Code2, Cpu, Brain, Database, 
   Terminal, Car, CircuitBoard, FileCode, 
-  GitBranch, Layers, Wifi, Wrench
+  GitBranch, Layers, Wifi, Wrench, Bot
 } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -31,9 +31,9 @@ const Skills = () => {
   }, []);
 
   const coreSkills = [
-    { name: 'Python', icon: Code2, level: 90, color: '#d0ff59', description: '熟练编写Python代码，熟悉PyTorch、OpenCV等库' },
-    { name: '深度学习', icon: Brain, level: 85, color: '#49abdb', description: '掌握神经网络基础知识，有实际项目经验' },
-    { name: 'ROS', icon: Terminal, level: 80, color: '#ad49db', description: '熟悉ROS机器人操作系统，开发过底盘控制系统' },
+    { name: 'Python', icon: Code2, level: 90, color: '#d0ff59', description: '熟练使用Python，熟悉PyTorch、OpenCV、YOLO等' },
+    { name: '深度学习', icon: Brain, level: 85, color: '#49abdb', description: '掌握深度学习与神经网络基础知识，有竞赛与项目经验' },
+    { name: 'ROS', icon: Terminal, level: 80, color: '#ad49db', description: '熟悉Linux与ROS机器人操作系统，开发过底盘远程控制系统' },
   ];
 
   const otherSkills = [
@@ -42,6 +42,8 @@ const Skills = () => {
     { name: 'YOLO', icon: Layers, level: 85, color: '#fffa59' },
     { name: 'C语言', icon: FileCode, level: 75, color: '#49abdb' },
     { name: '单片机', icon: CircuitBoard, level: 70, color: '#ad49db' },
+    { name: 'Coze/智能体', icon: Bot, level: 80, color: '#d0ff59' },
+    { name: '影刀RPA', icon: CircuitBoard, level: 75, color: '#49abdb' },
     { name: '车载网络', icon: Wifi, level: 75, color: '#d0ff59' },
     { name: '汽车理论', icon: Car, level: 80, color: '#ff9e50' },
     { name: '汽车修理', icon: Wrench, level: 70, color: '#ff8cce' },

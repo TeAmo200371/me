@@ -223,7 +223,7 @@ const Hero = () => {
                   ref={subtitleRef}
                   className="text-xl md:text-2xl text-gray-300 font-light"
                 >
-                  车辆工程 & <span className="gradient-text font-medium">AI开发</span>
+                  车辆工程 · <span className="gradient-text font-medium">AI 与智能汽车</span>
                 </p>
               </div>
 

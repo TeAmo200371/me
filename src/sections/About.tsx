@@ -135,9 +135,9 @@ const About = () => {
             </div>
 
             <p className="text-gray-400 leading-relaxed">
-              在学习和实践过程中，我积累了丰富的深度学习和计算机视觉经验，曾参与开发基于YOLO的牙齿洁度识别系统，
-              以及基于ROS的无人驾驶底盘远程控制系统。我热爱技术创新，在SCI三区发表过相关论文，
-              并在多个竞赛中获得荣誉。目前在广东人工智能产业协会担任实习生，负责人工智能训练师培训项目和数据标注PM工作。
+              在学习和实践过程中，我积累了丰富的深度学习和计算机视觉经验，曾参与开发基于YOLO11的牙齿洁度识别系统，
+              以及基于ROS的五菱宏光mini底盘远程控制系统。我热爱技术创新，在SCI三区发表过相关论文，
+              并在多个竞赛中获得荣誉。目前在广东人工智能产业协会担任人才发展与AI项目管理实习生，负责人工智能训练师培训、AI数据工程师培训方案设计及高质量数据标注PM工作。
             </p>
 
             {/* Education card */}
@@ -160,7 +160,7 @@ const About = () => {
               <div className="mt-4 pt-4 border-t border-white/10">
                 <p className="text-sm text-gray-400 mb-2">主修课程：</p>
                 <div className="flex flex-wrap gap-2">
-                  {['车载网络技术', '汽车理论', '嵌入式系统', 'Python', 'C语言', '单片机'].map((course) => (
+                  {['车载网络技术与智能汽车', '汽车理论', '汽车安全', '嵌入式系统综合设计', 'Python', 'C语言', '单片机原理与应用', '汽车构造', '自动控制原理'].map((course) => (
                     <span key={course} className="px-3 py-1 bg-white/5 rounded-full text-xs text-gray-300">
                       {course}
                     </span>

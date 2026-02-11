@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { 
   Briefcase, Users, Calendar, TrendingUp, 
-  Award, ClipboardList, CheckCircle2, UserCheck
+  Award, ClipboardList, CheckCircle2, UserCheck, Cpu
 } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -26,10 +26,8 @@ const Experience = () => {
           title: '人才培训工作',
           icon: UserCheck,
           details: [
-            '负责人工智能训练师题库审核',
-            '独立完成人工智能训练师考前培训',
-            '支持考评工作',
-            '设计AI数据工程师培训方案',
+            '负责人工智能训练师题库审核，独立完成考前培训及考评支持',
+            '负责AI数据工程师培训项目，设计数据标注、质检、交付及PM培训方案',
           ],
         },
         {
@@ -37,17 +35,24 @@ const Experience = () => {
           icon: Award,
           details: [
             '参与XAIR大会等大型会议筹备与执行',
-            '提升组织协调能力和临场应急能力',
+            '提升组织协调能力与临场应急能力',
           ],
         },
         {
-          title: '数据标注PM',
+          title: '高质量数据标注PM',
           icon: ClipboardList,
           details: [
-            '负责数据标注业务，参与哈啰等3D标注项目',
-            '针对标注质量问题，提出人员管理优化方案',
-            '设置奖罚机制，准确率从80%提升至95%',
-            '项目交付量明显提升',
+            '负责高质量数据标注业务，参与哈啰等3D标注项目',
+            '针对标注质量偏低提出人员管理优化、奖罚机制等方案',
+            '准确率从80%提升至95%，项目交付量明显提升',
+          ],
+        },
+        {
+          title: '智能体服务与内容生成',
+          icon: Cpu,
+          details: [
+            '协助搭建智能体，完成甲方智能体方案并训练垂类模型',
+            '负责AI视频、图片、文案生成业务，通过Coze搭建工作流批量生成内容，精准完成甲方需求',
           ],
         },
       ],
