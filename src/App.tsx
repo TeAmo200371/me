@@ -8,6 +8,7 @@ import Experience from './sections/Experience';
 import Awards from './sections/Awards';
 import Contact from './sections/Contact';
 import Footer from './sections/Footer';
+import ChatAgent from './components/ChatAgent';
 import './App.css';
 
 function App() {
@@ -82,7 +83,7 @@ function App() {
       <button
         type="button"
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        className={`fixed bottom-8 right-8 z-50 w-12 h-12 rounded-full glass flex items-center justify-center text-[#d0ff59] transition-all duration-300 hover:bg-[#d0ff59]/20 hover:scale-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d0ff59] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0b10] ${
+        className={`fixed bottom-28 right-8 z-50 w-12 h-12 rounded-full glass flex items-center justify-center text-[#d0ff59] transition-all duration-300 hover:bg-[#d0ff59]/20 hover:scale-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d0ff59] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0b10] ${
           scrollProgress > 8 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
         }`}
         aria-label="返回顶部"
@@ -108,6 +109,9 @@ function App() {
 
       {/* Footer */}
       <Footer />
+
+      {/* AI Chat Agent */}
+      <ChatAgent />
     </div>
   );
 }

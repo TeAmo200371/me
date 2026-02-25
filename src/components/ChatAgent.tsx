@@ -305,6 +305,26 @@ export default function ChatAgent({ isOpen: controlledOpen, onOpenChange }: Chat
 
   return (
     <>
+      {/* 智能体入口按钮 - 右下角 */}
+      {!isOpen && (
+        <button
+          type="button"
+          onClick={() => setIsOpen(true)}
+          className="fixed bottom-8 right-8 z-50 w-12 h-12 rounded-full glass flex items-center justify-center text-[#d0ff59] transition-all duration-300 hover:bg-[#d0ff59]/20 hover:scale-125 hover:w-14 hover:h-14 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d0ff59] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0b10] group shadow-2xl shadow-[#d0ff59]/20 active:scale-95"
+          aria-label="打开智能助手"
+        >
+          <Bot className="w-5 h-5 group-hover:scale-110 transition-transform duration-200" />
+          {/* 脉冲动画效果 */}
+          <span className="absolute inset-0 rounded-full border-2 border-blue-400/50 animate-pulse opacity-75" style={{ animationDuration: '2s' }} />
+          {/* 在线状态指示器 */}
+          <span className="absolute -top-0.5 -right-0.5 w-3 h-3 bg-green-500 rounded-full border-2 border-[#0a0b10] animate-pulse" />
+          {/* 提示文字 */}
+          <span className="absolute -top-10 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-[#0a0b10]/90 text-[#d0ff59] text-sm rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+            AI 智能助手
+          </span>
+        </button>
+      )}
+
       {/* 聊天窗口 */}
       {isOpen && (
         <div
