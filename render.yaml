@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: zhipu-ai-proxy
+    runtime: node
+    buildCommand: npm install
+    startCommand: node api-server.js
+    envVars:
+      - key: PORT
+        value: 10000
+    healthCheckPath: /health
