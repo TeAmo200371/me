@@ -1,0 +1,12 @@
+{
+  "name": "个人简历",
+  "description": "",
+  "icon": "",
+  "coverImg": null,
+  "coverImgSourceType": null,
+  "needLogin": true,
+  "proxyConfigs": null,
+  "pageArgConfigs": null,
+  "dataSourcePlugins": null,
+  "dataSourceWorkflows": null
+}
