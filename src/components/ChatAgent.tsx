@@ -5,22 +5,22 @@ import { Textarea } from './ui/textarea';
 import { X, Send, Minimize2, Bot, User, Trash2, ArrowDown, Globe } from 'lucide-react';
 import { generateWebsiteSummary, getContactInfo } from '@/lib/website-info';
 
-// 简单的防抖函数实现
-function useDebounce<T extends (...args: any[]) => any>(
-  func: T,
-  wait: number
-): (...args: Parameters<T>) => void {
-  const timeoutRef = useRef<NodeJS.Timeout>();
-
-  return useCallback((...args: Parameters<T>) => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
-    timeoutRef.current = setTimeout(() => {
-      func(...args);
-    }, wait);
-  }, [func, wait]);
-}
+// 简单的防抖函数实现（保留供未来使用）
+// function useDebounce<T extends (...args: any[]) => any>(
+//   func: T,
+//   wait: number
+// ): (...args: Parameters<T>) => void {
+//   const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
+//
+//   return useCallback((...args: Parameters<T>) => {
+//     if (timeoutRef.current) {
+//       clearTimeout(timeoutRef.current);
+//     }
+//     timeoutRef.current = setTimeout(() => {
+//       func(...args);
+//     }, wait);
+//   }, [func, wait]);
+// }
 
 interface Message {
   id: string;
