@@ -1,0 +1,12 @@
+{
+  "name": "个人简历网站",
+  "description": "",
+  "icon": "",
+  "coverImg": "https://agent-statics-tc.nuwax.com/store/9063fe8f38144524b9a5f2b3ed38ec45.png",
+  "coverImgSourceType": "SYSTEM",
+  "needLogin": true,
+  "proxyConfigs": null,
+  "pageArgConfigs": null,
+  "dataSourcePlugins": null,
+  "dataSourceWorkflows": null
+}
