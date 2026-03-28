@@ -63,7 +63,7 @@ const Experience = () => {
       id: 2,
       company: '广州翎石科技有限公司',
       role: 'AI Agent开发与实施工程师',
-      period: '2025.03.03-至今',
+      period: '2026.03.03-至今',
       icon: Cpu,
       color: '#49abdb',
       responsibilities: [
