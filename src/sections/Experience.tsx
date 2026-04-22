@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import {
   Briefcase, Users, Calendar, TrendingUp,
-  Award, ClipboardList, CheckCircle2, UserCheck, Cpu, Bot, Download
+  Award, ClipboardList, CheckCircle2, UserCheck, Cpu, Bot, Download, FileText, Code2, Database, GitBranch
 } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -63,16 +63,162 @@ const Experience = () => {
       id: 2,
       company: '广州翎石科技有限公司',
       role: 'AI Agent开发与实施工程师',
-      period: '2025.03.03-至今',
+      period: '2026.03 - 2026.04',
       icon: Cpu,
       color: '#49abdb',
       responsibilities: [
         {
-          title: '智能体开发与知识库搭建',
+          title: '智能客服系统开发',
           icon: Bot,
           image: 'workflow.jpg',
           details: [
-            '独立使用Dify开发客服智能体（chatflow模式），搭建RAG知识库（配置父子分段、混合检索、元数据分类）。',
+            '独立使用 Dify、Coze、Chatbot 等平台开发客服智能体，采用 Chatflow 工作流模式实现复杂对话逻辑',
+            '搭建企业级 RAG 知识库，配置父子分段策略、混合检索机制及元数据分类体系，提升检索准确率',
+          ],
+        },
+        {
+          title: '文档处理与向量化',
+          icon: FileText,
+          code: `import base64
+from pathlib import Path
+import requests
+from tqdm import tqdm
+
+API_URL = "https://ge9ec0ucgddfb6p4.aistudio-app.com/layout-parsing"
+TOKEN = "你的百度paddle的api_key"
+
+# 要扫描的根目录
+INPUT_DIR = Path(r"文件位置")
+
+# 支持的文件类型
+PDF_EXTENSIONS = {".pdf"}
+IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".bmp", ".webp"}
+
+HEADERS = {
+    "Authorization": f"token {TOKEN}",
+    "Content-Type": "application/json"
+}
+
+# 关闭环境代理，避免 ProxyError
+session = requests.Session()
+session.trust_env = False
+
+
+def get_file_type(file_path: Path):
+    ext = file_path.suffix.lower()
+    if ext in PDF_EXTENSIONS:
+        return 0
+    if ext in IMAGE_EXTENSIONS:
+        return 1
+    return None
+
+
+def safe_name(path: Path):
+    return path.stem.replace("/", "_").replace("\\", "_")
+
+
+def should_skip(path: Path):
+    return any(part.endswith("_ocr") for part in path.parts)
+
+
+def download_image(img_url: str, save_path: Path):
+    save_path.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        resp = session.get(img_url, timeout=120)
+        if resp.status_code == 200:
+            with open(save_path, "wb") as f:
+                f.write(resp.content)
+            return True
+        return False
+    except Exception:
+        return False
+
+
+def parse_file(file_path: Path):
+    if not file_path.exists():
+        return False, f"文件不存在: {file_path}"
+
+    file_type = get_file_type(file_path)
+    if file_type is None:
+        return False, f"不支持的文件类型: {file_path}"
+
+    file_output_dir = file_path.parent / f"{safe_name(file_path)}_ocr"
+    file_output_dir.mkdir(parents=True, exist_ok=True)
+
+    final_md_path = file_output_dir / f"{file_path.stem}.md"
+
+    if final_md_path.exists():
+        return True, f"已存在，跳过: {final_md_path}"
+
+    with open(file_path, "rb") as f:
+        file_data = base64.b64encode(f.read()).decode("ascii")
+
+    payload = {
+        "file": file_data,
+        "fileType": file_type,
+        "useDocOrientationClassify": False,
+        "useDocUnwarping": False,
+        "useTextlineOrientation": False,
+        "useChartRecognition": False,
+    }
+
+    response = session.post(
+        API_URL,
+        json=payload,
+        headers=HEADERS,
+        timeout=300
+    )
+
+    if response.status_code != 200:
+        return False, f"解析失败: {file_path}"
+
+    data = response.json()
+    result = data.get("result")
+    if not result:
+        return False, f"返回结果中没有 result: {file_path}"
+
+    merged_markdown_parts = []
+
+    for i, res in enumerate(result.get("layoutParsingResults", []), start=1):
+        markdown_info = res.get("markdown", {})
+        markdown_text = markdown_info.get("text", "")
+
+        for img_path, img_url in markdown_info.get("images", {}).items():
+            local_img_path = file_output_dir / img_path
+            ok = download_image(img_url, local_img_path)
+            if not ok:
+                print(f"\\n下载 markdown 图片失败: {img_url}")
+
+        merged_markdown_parts.append(f"\\n\\n<!-- page {i} -->\\n\\n{markdown_text}")
+
+    final_markdown = "".join(merged_markdown_parts).strip()
+
+    with open(final_md_path, "w", encoding="utf-8") as md_file:
+        md_file.write(final_markdown)
+
+    return True, f"Markdown 已保存: {final_md_path}"`,
+          details: [
+            '基于百度飞桨 PaddlePaddle 框架开发 OCR API 程序，实现 PDF 文件批量转换为 Markdown 格式',
+            '设计并实现 Markdown 文件向量化编排流程，优化标识符重写规范，支持平台级父子分段配置',
+          ],
+        },
+      ],
+    },
+    {
+      id: 3,
+      company: '广州智用开物人工智能科技有限公司',
+      role: 'AI全栈开发工程师',
+      period: '2026.04.13 - 至今',
+      icon: Code2,
+      color: '#ad49db',
+      responsibilities: [
+        {
+          title: '立讯精密培训系统开发',
+          icon: Cpu,
+          details: [
+            '利用 Codex、Claude Code 等 AI 开发工具，独立完成培训系统超管端、BU 管理端、讲师端账号管理模块开发',
+            '负责 TypeScript 前端、后端接口及 PostgreSQL 数据库设计与实现',
+            '完成上下级账号创建、账号管理、登录校验等功能，通过 Git 进行代码提交、分支合并及 PR 协作管理',
           ],
         },
       ],
@@ -223,23 +369,28 @@ const Experience = () => {
           <div className="lg:col-span-2">
             {experiences[activeIndex]?.responsibilities.map((resp, respIndex) => {
               const hasImage = 'image' in resp && resp.image;
+              const hasCode = 'code' in resp && resp.code;
+              const hasFlippableContent = hasImage || hasCode;
               const isFlipped = flippedCard === resp.title;
+              // 根据内容数量动态调整高度
+              const contentCount = resp.details?.length || 0;
+              const heightClass = contentCount > 2 ? 'h-64' : 'h-48';
 
               return (
                 <div
                   key={resp.title}
                   className={cn(
-                    "relative mb-6 h-48 perspective-1000",
-                    hasImage && "cursor-pointer"
+                    `relative mb-6 ${heightClass} perspective-1000`,
+                    hasFlippableContent && "cursor-pointer"
                   )}
                   style={{ animationDelay: `${respIndex * 0.1}s` }}
                   onMouseEnter={() => {
-                    if (hasImage) {
+                    if (hasFlippableContent) {
                       setFlippedCard(resp.title);
                     }
                   }}
                   onMouseLeave={() => {
-                    if (hasImage) {
+                    if (hasFlippableContent) {
                       setFlippedCard(null);
                     }
                   }}
@@ -253,7 +404,7 @@ const Experience = () => {
                   >
                     {/* 正面内容 */}
                     <div className={cn(
-                      "absolute inset-0 backface-hidden rounded-xl p-6 glass",
+                      "absolute inset-0 backface-hidden rounded-xl p-6 glass overflow-y-auto",
                       isFlipped && "pointer-events-none"
                     )}>
                       <div className="flex items-center gap-3 mb-4">
@@ -264,6 +415,9 @@ const Experience = () => {
                           {resp.title}
                           {hasImage && (
                             <span className="text-xs text-gray-500 font-normal">（悬停查看流程图）</span>
+                          )}
+                          {hasCode && (
+                            <span className="text-xs text-gray-500 font-normal">（悬停查看代码）</span>
                           )}
                         </h3>
                       </div>
@@ -304,6 +458,34 @@ const Experience = () => {
                             title="点击在新窗口打开图片"
                           />
                         </a>
+                      </div>
+                    )}
+
+                    {/* 背面代码 */}
+                    {hasCode && (
+                      <div className="absolute inset-0 backface-hidden rotate-y-180 rounded-xl overflow-hidden bg-[#0a0b10] border border-[#49abdb]/30 p-4">
+                        <div className="h-full flex flex-col">
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="text-xs text-[#49abdb] font-mono">pdf2md.py</span>
+                            <button
+                              onClick={() => {
+                                const blob = new Blob([resp.code as string], { type: 'text/plain;charset=utf-8' });
+                                const url = URL.createObjectURL(blob);
+                                const a = document.createElement('a');
+                                a.href = url;
+                                a.download = 'pdf2md.py';
+                                a.click();
+                                URL.revokeObjectURL(url);
+                              }}
+                              className="text-xs text-gray-400 hover:text-[#49abdb] transition-colors"
+                            >
+                              下载代码
+                            </button>
+                          </div>
+                          <pre className="flex-1 overflow-auto rounded-lg bg-black/50 p-3 text-xs text-gray-300 font-mono leading-relaxed">
+                            <code>{resp.code as string}</code>
+                          </pre>
+                        </div>
                       </div>
                     )}
                   </div>
